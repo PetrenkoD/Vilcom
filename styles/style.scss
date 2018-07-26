@@ -1,0 +1,145 @@
+
+// colours
+$link-colour: rgba(50, 190, 60, 1);
+$link-underline-colour: rgba(50, 190, 60, 0.3);
+$link-hover-colour: rgba(100, 230, 50, 1);
+$link-hover-underline-colour: rgba(100, 230, 50, 0.3);
+
+$light-grey-colour: rgba(120, 120, 120, 0.3);
+
+$field-active-colour: rgba(50, 190, 60, 1);
+$button-colour: rgba(255, 245, 0, 1);
+
+// fonts
+@font-face {
+	font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif;
+	font-weight: normal;
+	// src: url("../ci-report-src/fonts/PSS45.otf") format("opentype");
+}
+
+$primary-font: 'Helvetica Neue',Helvetica,Arial,sans-serif;
+$secondary-font: 'Pragmatica Slabserif',Arial,sans-serif;
+
+
+
+/// B A S E
+a {
+	color: $link-colour;
+	text-decoration: none;
+	border-bottom: solid 1px $link-underline-colour;
+
+	&:hover {
+		color: $link-hover-colour;
+		border-bottom: solid 1px $link-hover-underline-colour;
+	}
+}
+
+h1 {
+	margin: 0 0 30px 0;
+
+	font-family: $secondary-font;
+	font-size: 60px;
+	line-height: 70px;
+	font-weight: 300;
+}
+
+h2 {
+	font-weight: 400;
+	font-size: 20px;
+	line-height: 27px;
+}
+
+h3 {
+	margin: 60px 0 20px -3px;
+
+	font-size: 48px;
+	line-height: 44px;
+	font-family: $secondary-font;
+	font-weight: 300;
+	
+
+	.p-number {
+		margin-top: 12px;
+	}	
+}
+
+h4 {
+	margin: 40px 0 20px 0;
+
+	font-size: 30px;
+	line-height: 36px;
+	font-family: $secondary-font;
+	font-weight: 300;
+
+	.p-number {
+		margin-top: 7px;
+	}
+}
+
+h5 {
+	font-size: 36px;
+	line-height: 40px;
+	font-weight: 300;
+	margin: 20px 0 20px 0;
+}
+
+
+// U I  E L E M E N T S
+
+form {
+	input[type=text] {
+		display: inline-block;
+		height: 24px;
+		margin: 100px;
+		border-right: 1px solid grey;
+		border-bottom: 3px solid rgba(200, 200, 200, 1);
+		padding: 7px 20px 8px 20px;
+		font-size: 16px;
+	}
+}
+
+
+.intuition {
+	position: absolute;
+	right: 28px;
+	margin: 100px;
+	font-size: 12px;
+	line-height: 16px;
+	color: rgba(0,0,0,0.3);
+
+	a {
+		color: rgba(0,0,0,0.3);
+		border-bottom-color: rgba(0,0,0,0.1);
+
+		 	&:hover {
+		 		color: $link-hover-colour;
+		 		border-bottom-color: $link-hover-underline-colour;
+		 	}	
+	}
+}
+
+.input-icon {
+	position: relative;
+  }
+  
+  .input-icon > .chart {
+	  font-family: $secondary-font;
+	font-size: 11px;
+	position: absolute;
+	display: block;
+	top:23%;
+	pointer-events: none;
+	width: 25px;
+	text-align: center;
+	margin-right: 5px;
+
+  }
+  
+  .input-icon > input {
+	padding-left: 18px;
+	padding-right: 0;
+  }
+  .error {
+	color: red;
+  }
+  

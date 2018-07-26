@@ -1,0 +1,12 @@
+{
+  "name": "Vilcom",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "devDependencies": {
+    "node-sass": "^4.9.2"
+  },
+  "dependencies": {
+    "jquery": "^3.3.1"
+  }
+}
