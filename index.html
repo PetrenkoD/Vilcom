@@ -4,8 +4,9 @@
 <head>
 	<title>Vilcom</title>
 	<meta charset='utf-8'>
+	<script type="text/javascript" src="scripts/jquery.min.js"></script>
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
-	<link href='styles/style.scss' rel='stylesheet'>
+	<link href='styles/style.css' rel='stylesheet'>
 
 	<meta name="viewport" content="width=860">
 
@@ -13,19 +14,16 @@
 
 <body>
 	<div class="input-icon">
-		<!-- <form name='form' id="ajaxform" > -->
-			<div class="chart">+7</div><input id="phone" type="text" autocomplete="off" ><span id="namef" style="color: red"></span>
+		<form name='form' id="ajaxform" >
+			<input id="phone" type="text" autocomplete="off" >
+			<div class="error-box"></div>
 			<input type="submit" value="Продолжить" >
-		<!-- </form> -->
+		</form>
+		
 	</div>
 
-	<div class="intuition">
-		Сделано с <a href="http://bvz.name">Интуицией</a> в 2018 году
-	</div>
-
-
+	<script src="scripts/form.js"></script>
 	<script src="scripts/mask.js"></script>
-	<!-- <script src="scripts/form.js"></script> -->
 </body>
 
 </html> 

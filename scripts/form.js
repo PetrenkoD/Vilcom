@@ -1,30 +1,45 @@
-$(document).ready(function() { 
-	$("#ajaxform").submit(function(){ 
-        $(this).find('#phone').each(function(){
-            var error = false;  
-            if ($(this).val().length == 0 ) { 
-                document.getElementById("namef").innerHTML="данное поле обязательно для заполнения";
-            } else if (($(this).val().length < 16) && ($(this).val().length > 1)) {
-                document.getElementById("namef").innerHTML="введённый номер телефона короткий";
-            } else if (($(this).val().length == 16 ) || $(this).keyup) {
-                document.getElementById("namef").remove();
-            } 
-            console.log($(this).val().length);
-            error = true;
-            
-            // $(this).on('keyup',function(){
-            //     document.getElementById("namef").remove(); 
-            // })
+$(document).ready(function(){
+
+    $('input#phone').unbind().blur( function(){
         
-        }); 
-        $(this).on('keyup',function(){
-            document.getElementById("namef").remove(); 
-        })
-        return false;
+        var val = $(this).val();
+        if (val.length > 15 && val != '')  
+        {  
+            $(this).addClass('not_error');
+            $(this).next('.error-box').text('')     
+        } else if ( val.length < 15 && val.length > 1) {
+            $(this).removeClass('not_error').addClass('error');
+            $(this).next('.error-box').html('&bull; полный номер телефона')
+                                        .css('color','red')
+                                        .animate({'paddingLeft':'10px'},400)
+                                        .animate({'paddingLeft':'5px'},400);
+        } else if (val.length == 0) {
+            $(this).removeClass('not_error').addClass('error');
+            $(this).next('.error-box').html('&bull; поле обязательно для заполнения')
+                                        .css('color','red')
+                                        .animate({'paddingLeft':'10px'},400)
+                                        .animate({'paddingLeft':'5px'},400);
+        }
     });
-    // $("#ajaxform").find('#phone').each( function(){ 
-    //     $(this).on('keyup',function(){
-    //         document.getElementById("namef").hide(); 
-    //     })  
-    // });
-});
+
+    $("#ajaxform").submit(function(e){ 
+
+        
+        e.preventDefault();
+        
+        if ($('.not_error').length == 1) {  
+            $('input#phone').removeClass('error').next('.error-box').text('')
+                                                    .css('border-color','green');
+            $('input#phone').next('.error-box').text('');
+            alert('all are ok');
+        } else {
+            $('input#phone').removeClass('not_error').addClass('error');
+            $('input#phone').next('.error-box').html('&bull; обязательное поле ввода')
+                                        .css('color','red')
+                                        .animate({'paddingLeft':'10px'},400)
+                                        .animate({'paddingLeft':'5px'},400);
+            }
+    }); 
+
+
+ }); // end script

@@ -140,6 +140,9 @@ form {
 	padding-right: 0;
   }
   .error {
-	color: red;
+	border-color: red;
+	&.not_error {
+		border-color: green;
+	}
   }
   
