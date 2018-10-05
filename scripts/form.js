@@ -46,6 +46,21 @@
 
 $('.phone').on('input', function() {
     var number = $(this).val().replace(/[^\d]/g, '');
-    number = number.replace(/(\d{3})(\d{3})(\d{2})(\d{2})/, "($1) $2-$3-$4");
+    if (number.length <= 0) {
+        number = number.replace(/(\D*\d{0,3})/, "");
+    } else if (number.length <=2) {
+        number = number.replace(/(\D*\d{0,3})/, "($1");
+    } else if (number.length <= 3) {
+        number = number.replace(/(\D*\d{0,3})/, "($1");
+    } else if (number.length <= 5) {
+        number = number.replace(/(\D*\d{0,3})/, "($1) ");
+    } else if (number.length <= 6) {
+        number = number.replace(/(\D*\d{0,3})(\D*\d{0,3})/, "($1) $2");
+    } else if (number.length <= 8) {
+        number = number.replace(/(\D*\d{0,3})(\D*\d{0,3})(\d{0,2})/, "($1) $2-$3");
+    } else if (number.length <= 11) {
+      number = number.replace(/(\d{0,3})(\d{0,3})(\d{0,2})(\d{0,2})/, "($1) $2-$3-$4");  
+    }       
+    console.log(number.length)                       
     $(this).val(number);
 });
