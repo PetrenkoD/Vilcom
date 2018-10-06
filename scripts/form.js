@@ -1,66 +1,74 @@
-// $(document).ready(function(){
+// вход: значение input.val()
+// выход: отформатированное значение input.val()
+// алгоритм: 
+// 1) Взять только цифры;
+// 2) Отформатировать цифры по маске;
+// 3) Обрезать лишние символы после последней введённой цифры.
 
-//     $('input#phone').unbind().blur( function(){
-        
-//         var val = $(this).val();
-//         if (val.length > 15 && val != '')  
-//         {  
-//             $(this).addClass('not_error');
-//             $(this).next('.error-box').text('')     
-//         } else if ( val.length < 15 && val.length > 1) {
-//             $(this).removeClass('not_error').addClass('error');
-//             $(this).next('.error-box').html('&bull; полный номер телефона')
-//                                         .css('color','red')
-//                                         .animate({'paddingLeft':'10px'},400)
-//                                         .animate({'paddingLeft':'5px'},400);
-//         } else if (val.length == 0) {
-//             $(this).removeClass('not_error').addClass('error');
-//             $(this).next('.error-box').html('&bull; поле обязательно для заполнения')
-//                                         .css('color','red')
-//                                         .animate({'paddingLeft':'10px'},400)
-//                                         .animate({'paddingLeft':'5px'},400);
-//         }
-//     });
+// Поддерживать ситуации:
+// 1) Копирование из буфера обмена;
+// 2) Восстановление позиции каретки при удалении нескольких символов;
 
-//     $("#ajaxform").submit(function(e){ 
+$(document).ready(function(){
 
-        
-//         e.preventDefault();
-        
-//         if ($('.not_error').length == 1) {  
-//             $('input#phone').removeClass('error').next('.error-box').text('')
-//                                                     .css('border-color','green');
-//             $('input#phone').next('.error-box').text('');
-//             alert('all are ok');
-//         } else {
-//             $('input#phone').removeClass('not_error').addClass('error');
-//             $('input#phone').next('.error-box').html('&bull; обязательное поле ввода')
-//                                         .css('color','red')
-//                                         .animate({'paddingLeft':'10px'},400)
-//                                         .animate({'paddingLeft':'5px'},400);
-//             }
-//     }); 
+    var FORMAT_MASK = "($1) $2-$3-$4";
+    var FORMAT_REGEXP = /^(\d{0,3})(\d{0,3})(\d{0,2})(\d{0,2})$/; 
 
+    function getNumbers (inputNumbers) {
 
-//  }); // end script
+        var stringNumbers = inputNumbers.replace(/\D/g, '');
+        return stringNumbers;
+    }
 
-$('.phone').on('input', function() {
-    var number = $(this).val().replace(/[^\d]/g, '');
-    if (number.length <= 0) {
-        number = number.replace(/(\D*\d{0,3})/, "");
-    } else if (number.length <=2) {
-        number = number.replace(/(\D*\d{0,3})/, "($1");
-    } else if (number.length <= 3) {
-        number = number.replace(/(\D*\d{0,3})/, "($1");
-    } else if (number.length <= 5) {
-        number = number.replace(/(\D*\d{0,3})/, "($1) ");
-    } else if (number.length <= 6) {
-        number = number.replace(/(\D*\d{0,3})(\D*\d{0,3})/, "($1) $2");
-    } else if (number.length <= 8) {
-        number = number.replace(/(\D*\d{0,3})(\D*\d{0,3})(\d{0,2})/, "($1) $2-$3");
-    } else if (number.length <= 11) {
-      number = number.replace(/(\d{0,3})(\d{0,3})(\d{0,2})(\d{0,2})/, "($1) $2-$3-$4");  
-    }       
-    console.log(number.length)                       
-    $(this).val(number);
+    function applyMask (stringNumbers) {
+
+        var formattedString = stringNumbers.replace(FORMAT_REGEXP, FORMAT_MASK);
+        return formattedString;
+    }
+
+    function truncateResult (formattedString, numbersCount) {
+        var regexp = truncateRegexp(numbersCount);
+        var resultPhone = formattedString.replace(regexp, "$1");
+        return resultPhone;
+    } 
+
+    function truncateRegexp (numbersCount) {
+        var partRegexp1 = '^((\\D*\\d){';
+        var partRegexp2 = '})(\\D*)$';
+        var regExp = new RegExp (partRegexp1 + numbersCount + partRegexp2);
+        return regExp;
+    }
+
+    $('.phone').on('input',function(){
+        var $input = $(this);
+        var inputNumbers = $input.val();
+
+        var numbers = getNumbers(inputNumbers);
+        var numbersCount = numbers.length;
+        var formattedNumbers = applyMask(numbers);    
+        var phoneNumber = truncateResult(formattedNumbers, numbersCount);
+
+        $input.val(phoneNumber);
+
+    });
+
+    console.log(getNumbers("9854-55_frs") === "985455");
+    console.log(getNumbers("8(000)987-65-43") === "80009876543");
+    console.log(getNumbers("") === "");
+    console.log(getNumbers("ф (ффф) ффф-фф-фф") === "");
+    console.log(getNumbers("------,-.--") === "");
+
+    console.log(applyMask("84587834") === "(845) 878-34-");
+    console.log(applyMask("8458783") === "(845) 878-3-");
+    console.log(applyMask("84") === "(84) --");
+    console.log(applyMask("8451087090") === "(845) 108-70-90");
+    console.log(applyMask("") === "() --");
+
+    console.log(truncateResult("(845) 878-34-", 8) === "(845) 878-34");
+    console.log(truncateResult("(84) --", 2) === "(84");
+    console.log(truncateResult("(845) 108-70-90", 10) === "(845) 108-70-90");
+    console.log(truncateResult("() --", 0 ) === ""); 
+    console.log(truncateResult("(845) 878-3-", 7) === "(845) 878-3");
+    console.log(truncateResult("(8) --", 1 ) === "(8");
+    console.log(truncateResult("(845) 1--", 4) === "(845) 1");
 });
